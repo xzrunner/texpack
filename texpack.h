@@ -10,8 +10,8 @@ extern "C"
 #include <stdbool.h>
 
 struct texpack_rect {
-	int16_t xmin, ymin;
-	int16_t xmax, ymax;
+	uint16_t xmin, ymin;
+	uint16_t xmax, ymax;
 };
 
 struct texpack_pos {
