@@ -10,7 +10,7 @@ struct tp_node {
 	// pack
 	int16_t is_split_y;
 	struct tp_node *next, *child, *parent;
-	int remain_area, remain_len, remain_space;	
+	int remain_area, remain_len, remain_space;
 };
 
 struct texpack {
@@ -55,7 +55,7 @@ _init_root(struct texpack* tp, int width, int height) {
 	tp->root = root;
 }
 
-struct texpack* 
+struct texpack*
 texpack_create(int width, int height, int size) {
     size_t node_sz = size * 3 + 2;
 	size_t sz = sizeof(struct texpack) + sizeof(struct tp_node) * node_sz;
@@ -73,12 +73,12 @@ texpack_create(int width, int height, int size) {
 	return tp;
 }
 
-void 
+void
 texpack_release(struct texpack* tp) {
 	free(tp);
 }
 
-void 
+void
 texpack_clear(struct texpack* tp) {
 	tp->free_next = 0;
 	memset(tp->freelist, 0, sizeof(struct tp_node) * tp->free_cap);
@@ -101,7 +101,7 @@ _rect_update_remain(struct tp_node* n) {
 				p->remain_len = c->remain_len;
 			} if (c->remain_space > p->remain_space) {
 				p->remain_space = c->remain_space;
-			}  
+			}
 			c = c->next;
 		}
 		p = p->parent;
@@ -110,7 +110,7 @@ _rect_update_remain(struct tp_node* n) {
 
 static inline int
 _node_area(struct tp_node* n) {
-	return (n->pos.r.xmax - n->pos.r.xmin) * (n->pos.r.ymax - n->pos.r.ymin);	
+	return (n->pos.r.xmax - n->pos.r.xmin) * (n->pos.r.ymax - n->pos.r.ymin);
 }
 
 static inline int
@@ -124,7 +124,7 @@ static inline struct tp_node*
 _split_node(struct texpack* tp, struct tp_node* dst, int w, int h) {
 	struct tp_node* next = _new_node(tp);
 	struct tp_node* child = _new_node(tp);
-	struct tp_node* child_next = _new_node(tp);	  
+	struct tp_node* child_next = _new_node(tp);
 	if (child_next == NULL) {
 		return NULL;
 	}
@@ -183,7 +183,7 @@ _split_node(struct texpack* tp, struct tp_node* dst, int w, int h) {
 	next->remain_len = _node_max_length(next);
 	child_next->remain_len = _node_max_length(child_next);
 	child->remain_len = 0;
-	dst->remain_len = child_next->remain_len;  
+	dst->remain_len = child_next->remain_len;
 	// remain_space
 	if (dst->is_split_y) {
 		next->remain_space = next->pos.r.ymax - next->pos.r.ymin;
@@ -253,19 +253,19 @@ _insert(struct texpack* tp, struct tp_node* dst, int w, int h, bool can_rotate) 
 	}
 }
 
-struct texpack_pos* 
+struct texpack_pos*
 texpack_add(struct texpack* tp, int width, int height, bool can_rotate) {
 	struct tp_node* node = _insert(tp, tp->root, width, height, can_rotate);
 	return &node->pos;
 }
 
-void 
+void
 texpack_get_size(struct texpack* tp, int* width, int* height) {
 	*width = tp->w;
 	*height = tp->h;
 }
 
-int 
+int
 texpack_get_free_space(struct texpack* tp) {
 	return tp->root->remain_area;
 }

@@ -58,7 +58,7 @@
 //	}
 //}
 //
-//static inline int 
+//static inline int
 //_cal_area(struct texpack_rect_with_dst** rects, int sz) {
 //	int area = 0;
 //	for (int i = 0; i < sz; ++i) {
@@ -68,8 +68,8 @@
 //	return area;
 //}
 //
-//static inline int 
-//_next_p2(int a) 
+//static inline int
+//_next_p2(int a)
 //{
 //	int rval = 1;
 //	while(rval < a) {
