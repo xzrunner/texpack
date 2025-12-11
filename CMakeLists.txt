@@ -22,6 +22,4 @@ set(ALL_FILES
     ${Sources}
 )
 
-include_directories(${CMAKE_SOURCE_DIR})
-
-add_library(texpack STATIC ${ALL_FILES})
+add_library(${PROJECT_NAME} STATIC ${ALL_FILES})
